@@ -19,6 +19,7 @@ public class Human extends LifeForm {
 		super(name, points);
 		setArmorPoints(armor);
 		setAttackDmg(5);
+		maxSpeed=3;
 	}
 
 	/**
@@ -55,6 +56,34 @@ public class Human extends LifeForm {
 	@Override
 	public void updateTime(int time) {
 		myTime = time;
-
+		currentMoves=0;
+	}
+	
+	/**
+	 * turn the lifeform left
+	 */
+	public void turnRight(){
+		super.turnRight();
+	}
+	
+	/**
+	 * turn the lifeform right
+	 */
+	public void turnLeft(){
+		super.turnLeft();
+	}
+	
+	/**
+	 * turn the lifeform around
+	 */
+	public void turnAround(){
+		super.turnAround();
+	}
+	
+	/**
+	 * @return the direction the lifeform is currently facing
+	 */
+	public char getDirection(){
+		return currentDirection;
 	}
 }

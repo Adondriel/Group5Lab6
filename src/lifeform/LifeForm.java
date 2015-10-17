@@ -18,7 +18,13 @@ public abstract class LifeForm implements TimeObserver {
 	protected Weapon weapon;
 	private int myRow;
 	private int myCol;
-
+	protected char north='n';
+	protected char south='s';
+	protected char east='e';
+	protected char west='w';
+	protected char currentDirection=north;
+	protected int maxSpeed=0;
+	protected int currentMoves=1;
 	/**
 	 * @param name
 	 *            The name of the life form
@@ -88,6 +94,7 @@ public abstract class LifeForm implements TimeObserver {
 
 	public void updateTime(int time) {
 		myTime = time;
+		currentMoves=0;
 	}
 
 	public int getMyTime() {
@@ -119,4 +126,80 @@ public abstract class LifeForm implements TimeObserver {
 		this.myCol = myCol;
 	}
 
+	public int getMaxSpeed(){
+		return maxSpeed;
+	}
+	/**
+	 * turn the lifeform left
+	 */
+	public void turnRight(){
+		if(currentDirection==north)
+			currentDirection=east;
+		else if(currentDirection==east)
+			currentDirection=south;
+		else if(currentDirection==south)
+			currentDirection=west;
+		else
+			currentDirection=north;
+	}
+	
+	/**
+	 * turn the lifeform right
+	 */
+	public void turnLeft(){
+		if(currentDirection==north)
+			currentDirection=west;
+		else if(currentDirection==west)
+			currentDirection=south;
+		else if(currentDirection==south)
+			currentDirection=east;
+		else
+			currentDirection=north;
+	}
+	
+	/**
+	 * turn the lifeform around
+	 */
+	public void turnAround(){
+		if(currentDirection==north)
+			currentDirection=south;
+		else if(currentDirection==south)
+			currentDirection=north;
+		else if(currentDirection==east)
+			currentDirection=west;
+		else
+			currentDirection=east;
+	}
+	
+	public void turnNorth(){
+		currentDirection=north;
+	}
+	public void turnSouth(){
+		currentDirection=south;
+	}
+	public void turnEast(){
+		currentDirection=east;
+	}
+	public void turnWest(){
+		currentDirection=west;
+	}
+	
+	/**
+	 * @return the direction the lifeform is currently facing
+	 */
+	public char getDirection(){
+		return currentDirection;
+	}
+	
+	public int getCurrentMoves(){
+		return currentMoves;
+	}
+	
+	public int getMaxMoves(){
+		return maxSpeed;
+	}
+	
+	public void moved(){
+		currentMoves++;
+	}
 }

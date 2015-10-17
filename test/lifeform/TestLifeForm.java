@@ -4,8 +4,11 @@
  */
 package lifeform;
 import static org.junit.Assert.*;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
 import Exceptions.EnvironmentException;
 import environment.Environment;
 import gameplay.SimpleTimer;
@@ -184,6 +187,7 @@ public class TestLifeForm {
 	 * @throws InterruptedException
 	 */
 	@Test
+	@Ignore
 	public void testCanTrackPassageOfTime() throws InterruptedException {
 		SimpleTimer st = new SimpleTimer(1000);
 		LifeForm e = new MockLifeForm("bob", 20);
@@ -236,5 +240,63 @@ public class TestLifeForm {
 		assertEquals(25, e2.getCurrentLifePoints());
 		e2.takeHit(5);
 		assertEquals(20, e2.getCurrentLifePoints());
+	}
+	
+	private char north='n';
+	private char south='s';
+	private char east='e';
+	private char west='w';
+	public void testMaxSpeed(){
+		LifeForm l1=new MockLifeForm("L1", 30);
+		assertEquals(0, l1.getMaxSpeed());
+	}
+	
+	@Test
+	public void testTurningRight(){
+		LifeForm l1=new MockLifeForm("L1", 30);
+		assertEquals(north, l1.getDirection());
+		
+		l1.turnRight();
+		assertEquals(east, l1.getDirection());
+		l1.turnRight();
+		assertEquals(south, l1.getDirection());
+		l1.turnRight();
+		assertEquals(west, l1.getDirection());
+		l1.turnRight();
+		assertEquals(north, l1.getDirection());
+	}
+	
+	@Test
+	public void testTurnLeft(){
+		LifeForm l1=new MockLifeForm("L1", 30);
+		assertEquals(north, l1.getDirection());
+		
+		l1.turnLeft();
+		assertEquals(west, l1.getDirection());
+		l1.turnLeft();
+		assertEquals(south, l1.getDirection());
+		l1.turnLeft();
+		assertEquals(east, l1.getDirection());
+		l1.turnLeft();
+		assertEquals(north, l1.getDirection());
+	}
+	
+	@Test
+	public void testTurnAround(){
+		LifeForm l1=new MockLifeForm("L1", 30);
+		assertEquals(north, l1.getDirection());
+		
+		l1.turnAround();
+		assertEquals(south, l1.getDirection());
+		l1.turnAround();
+		assertEquals(north, l1.getDirection());
+		
+		l1.turnRight();
+		assertEquals(east, l1.getDirection());
+		
+		l1.turnAround();
+		assertEquals(west, l1.getDirection());
+		l1.turnAround();
+		assertEquals(east, l1.getDirection());
 	}
 }

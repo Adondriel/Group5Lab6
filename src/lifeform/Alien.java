@@ -43,6 +43,7 @@ public class Alien extends LifeForm {
 	public Alien(String name, int points) throws RecovRateIsNegative {
 		this(name, points, 1, new RecoveryNone());
 		setAttackDmg(10);
+		maxSpeed=2;
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class Alien extends LifeForm {
 		} else {
 			setRecoveryRate(recovRate);
 		}
-
+		maxSpeed=2;
 	}
 
 	/**
@@ -93,10 +94,39 @@ public class Alien extends LifeForm {
 	@Override
 	public void updateTime(int time) {
 		myTime = time;
+		currentMoves=0;
 		if (recoveryRate > 0) {
 			if (time % recoveryRate == 0) {
 				recover();
 			}
 		}
+	}
+	
+	/**
+	 * turn the lifeform left
+	 */
+	public void turnRight(){
+		super.turnRight();
+	}
+	
+	/**
+	 * turn the lifeform right
+	 */
+	public void turnLeft(){
+		super.turnLeft();
+	}
+	
+	/**
+	 * turn the lifeform around
+	 */
+	public void turnAround(){
+		super.turnAround();
+	}
+	
+	/**
+	 * @return the direction the lifeform is currently facing
+	 */
+	public char getDirection(){
+		return currentDirection;
 	}
 }

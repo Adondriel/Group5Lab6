@@ -4,13 +4,17 @@
  */
 package environment;
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
 import Exceptions.EnvironmentException;
 import environment.Environment;
+import gameplay.SimpleTimer;
 import lifeform.Human;
 import lifeform.LifeForm;
 import lifeform.MockLifeForm;
@@ -209,5 +213,81 @@ public class TestEnvironment {
 		e.addLifeForm(3, 1, steve);
 		assertEquals(bob, e.getLifeForm(3, 0));
 		assertEquals(steve, e.getLifeForm(3, 1));
+	}
+	
+	/**
+	 * @throws CloneNotSupportedException
+	 */
+	@Test
+	public void testMoveHuman() throws CloneNotSupportedException{
+		LifeForm h1=new Human("h1", 30, 30);
+		SimpleTimer st=new SimpleTimer(100);
+		st.addTimeObserver(h1);
+		e.ClearBoard();
+		e.addLifeForm(2, 2, h1);
+		
+		e.step(2, 2);
+		assertEquals(h1, e.getCellAt(1, 2).getLifeForm());
+		
+		//Make sure the human gets removed from the cell after its moved north
+		//EXTRA TEST
+		assertNull(e.getCellAt(2, 2).getLifeForm());
+		
+		//Make sure the human can move east
+		//EXTRA TEST
+		h1.turnRight();
+		assertTrue(e.step(1, 2));
+		assertEquals(h1, e.getCellAt(1, 3).getLifeForm());
+		
+		//Make sure the human can move south
+		h1.turnRight();
+		e.step(1, 3);
+		assertEquals(h1, e.getCellAt(2, 3).getLifeForm());
+		
+		//Make sure the human cannot go more than its maximum moves in one turn
+		//EXTRA TEST
+		h1.turnRight();
+		assertFalse(e.step(2, 3));
+		
+		//Make sure the human can move west
+		//EXTRA TEST
+		st.timeChanged();
+		assertTrue(e.step(2, 3));
+		assertEquals(h1, e.getCellAt(2, 2).getLifeForm());
+		
+		h1.turnRight();
+		LifeForm h2=new Human("h2", 30, 30);
+		e.addLifeForm(1, 2, h2);
+		
+		st.timeChanged();
+		//Make sure a human can move more than 1 space and that its current moves are updated accordingly
+		//EXTRA TEST
+		assertTrue(e.stepNSpaces(2, 2, 2));
+		//EXTRA TEST
+		assertEquals(2, h1.getCurrentMoves());
+		assertEquals(h1, e.getCellAt(0, 2).getLifeForm());
+		//Make sure a humna can't go off the north side of the environment
+		//EXTRA TEST
+		assertFalse(e.step(0, 2));
+		h1.updateTime(3);
+		
+		//Make sure a human can't go off the west side of the environment
+		//EXTRA TEST
+		h2.turnLeft();
+		assertFalse(e.stepNSpaces(1, 2, 3));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }

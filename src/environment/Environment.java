@@ -1,9 +1,10 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * The environment class, used to hold and manage a 2-D array of cells.
  */
 package environment;
 import Exceptions.EnvironmentException;
+import lifeform.Human;
 import lifeform.LifeForm;
 import weapon.Weapon;
 public class Environment {
@@ -11,6 +12,10 @@ public class Environment {
 	private int maxCol;
 	private static Cell[][] theCells = null;
 	private static Environment theWorld = null;
+	private char north='n';
+	private char south='s';
+	private char east='e';
+	private char west='w';
 	/**
 	 * The private constructor, used with the singleton pattern.
 	 * Isolates the construction of the Environment class.
@@ -252,5 +257,87 @@ public class Environment {
 	}
 	private int getMaxRow() {
 		return maxRow;
+	}
+	
+	/**
+	 * step into the cell the lifeform is facing
+	 * @param row
+	 * @param col
+	 * @return whether or not the lifeform stepped
+	 */
+	public boolean step(int row, int col){
+		if(theCells[row][col].getLifeForm().getCurrentMoves()<=theCells[row][col].getLifeForm().getMaxMoves()){	
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==north && row>0 && theCells[row-1][col].getLifeForm()==null){
+				theCells[row-1][col].addLifeForm(theCells[row][col].getLifeForm());
+				theCells[row][col].getLifeForm().moved();
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==south && row<maxRow && theCells[row+1][col].getLifeForm()==null){
+				theCells[row+1][col].addLifeForm(theCells[row][col].getLifeForm());
+				theCells[row][col].getLifeForm().moved();
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==east && col<maxCol && theCells[row][col+1].getLifeForm()==null){
+				theCells[row][col+1].addLifeForm(theCells[row][col].getLifeForm());
+				theCells[row][col].getLifeForm().moved();
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==west && col>0 && theCells[row][col-1].getLifeForm()==null){
+				theCells[row][col-1].addLifeForm(theCells[row][col].getLifeForm());
+				theCells[row][col].getLifeForm().moved();
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param row
+	 * @param col
+	 * @param n number of cells to move
+	 * @return whether or not the lifeform was allowed to move to the specified space
+	 */
+	public boolean stepNSpaces(int row, int col, int n){
+		if(theCells[row][col].getLifeForm().getCurrentMoves()+n<=theCells[row][col].getLifeForm().getMaxMoves()){	
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==north && row-n>=0 && theCells[row-n][col].getLifeForm()==null){
+				theCells[row-n][col].addLifeForm(theCells[row][col].getLifeForm());
+				callMoved(theCells[row][col].getLifeForm(), n);
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==south && row+n<=maxRow && theCells[row+n][col].getLifeForm()==null){
+				theCells[row+n][col].addLifeForm(theCells[row][col].getLifeForm());
+				callMoved(theCells[row][col].getLifeForm(), n);
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==east && col+n<=maxCol && theCells[row][col+n].getLifeForm()==null){
+				theCells[row][col+n].addLifeForm(theCells[row][col].getLifeForm());
+				callMoved(theCells[row][col].getLifeForm(), n);
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==west && col-n>=0 && theCells[row][col-n].getLifeForm()==null){
+				theCells[row][col-n].addLifeForm(theCells[row][col].getLifeForm());
+				callMoved(theCells[row][col].getLifeForm(), n);
+				theCells[row][col].removeLifeForm();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param l the lifeform to increment
+	 * @param n how many moves the lifeform used
+	 */
+	public void callMoved(LifeForm l, int n){
+		for(int i=0; i<n; i++){
+			l.moved();
+		}
 	}
 }
