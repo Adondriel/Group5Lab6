@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * The tests for the alien class. Tests all of their recovery methods, and initialization.
  */
 package lifeform;
@@ -283,5 +283,11 @@ public class TestAlien {
 		assertEquals(23, a.getCurrentLifePoints());
 		a.recover();
 		assertEquals(26, a.getCurrentLifePoints());
+	}
+	
+	@Test
+	public void testMaxSpeed() throws RecovRateIsNegative{
+		Alien a=new Alien("ET", 30, 1, new RecoveryLinear(3));
+		assertEquals(2, a.getMaxSpeed());
 	}
 }

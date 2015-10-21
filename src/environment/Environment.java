@@ -80,11 +80,13 @@ public class Environment {
 			boolean rval = theCells[row][col].addLifeForm(entity);
 			theCells[row][col].getLifeForm().setMyCol(col);
 			theCells[row][col].getLifeForm().setMyRow(row);
+			entity.turnNorth();
 			return rval;
 		} else {
 			boolean rval = theCells[row][col].addLifeForm(entity);
 			theCells[row][col].getLifeForm().setMyCol(col);
 			theCells[row][col].getLifeForm().setMyRow(row);
+			entity.turnNorth();
 			return rval;
 		}
 	}
@@ -266,6 +268,8 @@ public class Environment {
 	 * @return whether or not the lifeform stepped
 	 */
 	public boolean step(int row, int col){
+		//Make sure there is a lifeform in the cell, that the direction is north, that moving north won't take the lifeform out of the world,
+		//and that the space the lifeform wants to move to is currently unoccupied
 		if(theCells[row][col].getLifeForm().getCurrentMoves()<=theCells[row][col].getLifeForm().getMaxMoves()){	
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==north && row>0 && theCells[row-1][col].getLifeForm()==null){
 				theCells[row-1][col].addLifeForm(theCells[row][col].getLifeForm());
@@ -273,18 +277,24 @@ public class Environment {
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is south, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==south && row<maxRow && theCells[row+1][col].getLifeForm()==null){
 				theCells[row+1][col].addLifeForm(theCells[row][col].getLifeForm());
 				theCells[row][col].getLifeForm().moved();
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is east, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==east && col<maxCol && theCells[row][col+1].getLifeForm()==null){
 				theCells[row][col+1].addLifeForm(theCells[row][col].getLifeForm());
 				theCells[row][col].getLifeForm().moved();
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is west, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==west && col>0 && theCells[row][col-1].getLifeForm()==null){
 				theCells[row][col-1].addLifeForm(theCells[row][col].getLifeForm());
 				theCells[row][col].getLifeForm().moved();
@@ -302,25 +312,34 @@ public class Environment {
 	 * @return whether or not the lifeform was allowed to move to the specified space
 	 */
 	public boolean stepNSpaces(int row, int col, int n){
+		//Make sure the lifeform has enough moves remaining to do the specified command
 		if(theCells[row][col].getLifeForm().getCurrentMoves()+n<=theCells[row][col].getLifeForm().getMaxMoves()){	
+			//Make sure there is a lifeform in the cell, that the direction is north, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==north && row-n>=0 && theCells[row-n][col].getLifeForm()==null){
 				theCells[row-n][col].addLifeForm(theCells[row][col].getLifeForm());
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is south, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==south && row+n<=maxRow && theCells[row+n][col].getLifeForm()==null){
 				theCells[row+n][col].addLifeForm(theCells[row][col].getLifeForm());
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is east, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==east && col+n<=maxCol && theCells[row][col+n].getLifeForm()==null){
 				theCells[row][col+n].addLifeForm(theCells[row][col].getLifeForm());
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
+			//Make sure there is a lifeform in the cell, that the direction is west, that moving north won't take the lifeform out of the world,
+			//and that the space the lifeform wants to move to is currently unoccupied
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==west && col-n>=0 && theCells[row][col-n].getLifeForm()==null){
 				theCells[row][col-n].addLifeForm(theCells[row][col].getLifeForm());
 				callMoved(theCells[row][col].getLifeForm(), n);

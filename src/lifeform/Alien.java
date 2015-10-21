@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * The alien class, subclass to the LifeForm. Holds information and functions for an alien.
  */
 package lifeform;
