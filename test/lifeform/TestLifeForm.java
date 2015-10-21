@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine-Lab5, Alex Fennen-lab4
+ * @author Adam Pine-Lab5, Alex Fennen-lab4, Benjamin Uleau
  * Tests the functionality of the LifeForm class. 
  */
 package lifeform;
