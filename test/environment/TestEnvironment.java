@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
 import environment.Environment;
 import gameplay.SimpleTimer;
 import lifeform.Human;
@@ -72,9 +73,10 @@ public class TestEnvironment {
 	 * 		along the same column,
 	 * 		and NOT along the same row OR column.
 	 * @throws EnvironmentException
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testGetdistanceBetweenLifeForms() throws EnvironmentException{
+	public void testGetdistanceBetweenLifeForms() throws EnvironmentException, RecovRateIsNegative{
 		LifeForm l1 = new MockLifeForm("Bob", 30);
 		LifeForm l2 = new MockLifeForm("Steve", 30);
 		LifeForm l3 = new MockLifeForm("Harold", 30);
@@ -130,8 +132,9 @@ public class TestEnvironment {
 	 * Test that e.getCellAt() does not allow you to modify the cells.
 	 * Had to add a clone method to my Cell to allow for this to work :D
 	 * @throws CloneNotSupportedException 
+	 * @throws RecovRateIsNegative 
 	 */
-	public void testEnvironmentGetCellAt() throws CloneNotSupportedException{
+	public void testEnvironmentGetCellAt() throws CloneNotSupportedException, RecovRateIsNegative{
 		Cell badCell = new Cell();
 		LifeForm lf = new Human("steve", 30, 20);
 		Weapon w = new Pistol();
@@ -179,9 +182,10 @@ public class TestEnvironment {
 	//
 	/**
 	 * Tests the addLifeForm function of the Environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAddLifeForm() {
+	public void testAddLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);		
 		assertTrue(e.addLifeForm(0, 1, bob));
@@ -192,9 +196,10 @@ public class TestEnvironment {
 	}
 	/**
 	 * Tests the removeLifeForm function of the environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testRemoveLifeForm() {
+	public void testRemoveLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);
 		e.addLifeForm(2, 0, bob);
@@ -204,9 +209,10 @@ public class TestEnvironment {
 	}
 	/**
 	 * Tests the getLifeForm function of the environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testGetLifeForm() {
+	public void testGetLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);
 		e.addLifeForm(3, 0, bob);
@@ -217,9 +223,10 @@ public class TestEnvironment {
 	
 	/**
 	 * @throws CloneNotSupportedException
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testMoveHuman() throws CloneNotSupportedException{
+	public void testMoveHuman() throws CloneNotSupportedException, RecovRateIsNegative{
 		LifeForm h1=new Human("h1", 30, 30);
 		SimpleTimer st=new SimpleTimer(100);
 		st.addTimeObserver(h1);

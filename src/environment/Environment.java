@@ -3,14 +3,18 @@
  * The environment class, used to hold and manage a 2-D array of cells.
  */
 package environment;
+import java.io.IOException;
+
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
+import GUI.GUI;
 import lifeform.Human;
 import lifeform.LifeForm;
 import weapon.Weapon;
 public class Environment {
-	private int maxRow;
-	private int maxCol;
-	private static Cell[][] theCells = null;
+	private static int maxRow;
+	private static int maxCol;
+	private static Cell[][] theCells;
 	private static Environment theWorld = null;
 	private char north='n';
 	private char south='s';
@@ -26,6 +30,7 @@ public class Environment {
 		theCells = new Cell[width][height];
 		maxRow = width;
 		maxCol = height;
+		ClearBoard();
 	}
 	/**
 	 * Will initialize the world if the world is currently null.
@@ -59,7 +64,8 @@ public class Environment {
 			}
 		}
 	}	
-	public Cell getCellAt(int row, int col) throws CloneNotSupportedException{
+	public static Cell getCellAt(int row, int col) throws CloneNotSupportedException{
+		System.out.println("asd: "+theCells[row][col].clone().getWeapons().size());
 		return (Cell) theCells[row][col].clone();
 	}
 	/**
@@ -70,8 +76,9 @@ public class Environment {
 	 * @param col
 	 * @param entity
 	 * @return true if added successfully, and false if not added.
+	 * @throws RecovRateIsNegative 
 	 */
-	public boolean addLifeForm(int row, int col, LifeForm entity) {
+	public boolean addLifeForm(int row, int col, LifeForm entity) throws RecovRateIsNegative {
 		if ((row >= maxRow) || (col >= maxCol)) {
 			return false;
 		}
@@ -80,11 +87,13 @@ public class Environment {
 			boolean rval = theCells[row][col].addLifeForm(entity);
 			theCells[row][col].getLifeForm().setMyCol(col);
 			theCells[row][col].getLifeForm().setMyRow(row);
+			GUI.globalGUI.addLifeFormEvent(entity, row, col);
 			return rval;
 		} else {
 			boolean rval = theCells[row][col].addLifeForm(entity);
 			theCells[row][col].getLifeForm().setMyCol(col);
 			theCells[row][col].getLifeForm().setMyRow(row);
+			GUI.globalGUI.addLifeFormEvent(entity, row, col);
 			return rval;
 		}
 	}
@@ -102,6 +111,7 @@ public class Environment {
 		if (theCells[row][col] != null) {
 			LifeForm rCell = theCells[row][col].getLifeForm();
 			theCells[row][col].removeLifeForm();
+			GUI.globalGUI.removeLifeFormEvent(row, col);
 			return rCell;
 		} else {
 			return null;
@@ -139,8 +149,10 @@ public class Environment {
 		}
 		if (theCells[row][col] == null) {
 			theCells[row][col] = new Cell();
+			GUI.globalGUI.weaponAddedEvent(w, row, col);
 			return theCells[row][col].addWeapon(w);
 		} else {
+			GUI.globalGUI.weaponAddedEvent(w, row, col);
 			return theCells[row][col].addWeapon(w);
 		}
 	}
@@ -158,6 +170,7 @@ public class Environment {
 		if (theCells[row][col] == null) {
 			return false;
 		} else {
+			GUI.globalGUI.weaponRemovedEvent(w, row, col);
 			return theCells[row][col].removeWeapon(w);
 		}
 	}
@@ -249,13 +262,13 @@ public class Environment {
 	private void setMaxRow(int maxRow) {
 		this.maxRow = maxRow;
 	}
-	private int getMaxCol() {
+	public int getMaxCol() {
 		return maxCol;
 	}
 	private void setMaxCol(int maxCol) {
 		this.maxCol = maxCol;
 	}
-	private int getMaxRow() {
+	public int getMaxRow() {
 		return maxRow;
 	}
 	
@@ -300,29 +313,38 @@ public class Environment {
 	 * @param col
 	 * @param n number of cells to move
 	 * @return whether or not the lifeform was allowed to move to the specified space
+	 * @throws RecovRateIsNegative 
 	 */
-	public boolean stepNSpaces(int row, int col, int n){
+	public boolean stepNSpaces(int row, int col, int n) throws RecovRateIsNegative{
 		if(theCells[row][col].getLifeForm().getCurrentMoves()+n<=theCells[row][col].getLifeForm().getMaxMoves()){	
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==north && row-n>=0 && theCells[row-n][col].getLifeForm()==null){
 				theCells[row-n][col].addLifeForm(theCells[row][col].getLifeForm());
+				GUI.globalGUI.removeLifeFormEvent(row, col);
+				GUI.globalGUI.addLifeFormEvent(theCells[row][col].getLifeForm(), row-n, col);
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==south && row+n<=maxRow && theCells[row+n][col].getLifeForm()==null){
 				theCells[row+n][col].addLifeForm(theCells[row][col].getLifeForm());
+				GUI.globalGUI.removeLifeFormEvent(row, col);
+				GUI.globalGUI.addLifeFormEvent(theCells[row][col].getLifeForm(), row+n, col);
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==east && col+n<=maxCol && theCells[row][col+n].getLifeForm()==null){
 				theCells[row][col+n].addLifeForm(theCells[row][col].getLifeForm());
+				GUI.globalGUI.removeLifeFormEvent(row, col);
+				GUI.globalGUI.addLifeFormEvent(theCells[row][col].getLifeForm(), row, col+n);
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
 			}
 			if(theCells[row][col].getLifeForm()!=null && theCells[row][col].getLifeForm().getDirection()==west && col-n>=0 && theCells[row][col-n].getLifeForm()==null){
 				theCells[row][col-n].addLifeForm(theCells[row][col].getLifeForm());
+				GUI.globalGUI.removeLifeFormEvent(row, col);
+				GUI.globalGUI.addLifeFormEvent(theCells[row][col].getLifeForm(), row, col-n);
 				callMoved(theCells[row][col].getLifeForm(), n);
 				theCells[row][col].removeLifeForm();
 				return true;
@@ -339,5 +361,9 @@ public class Environment {
 		for(int i=0; i<n; i++){
 			l.moved();
 		}
+	}
+	
+	public Cell[][] getCellsArray(){
+		return theCells;
 	}
 }

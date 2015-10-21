@@ -8,6 +8,8 @@ package lifeform;
 import gameplay.TimeObserver;
 import weapon.*;
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
+import GUI.GUI;
 import environment.Environment;
 
 public abstract class LifeForm implements TimeObserver {
@@ -141,6 +143,7 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=west;
 		else
 			currentDirection=north;
+		callGUI();
 	}
 	
 	/**
@@ -155,6 +158,7 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=east;
 		else
 			currentDirection=north;
+		callGUI();
 	}
 	
 	/**
@@ -169,19 +173,24 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=west;
 		else
 			currentDirection=east;
+		callGUI();
 	}
 	
 	public void turnNorth(){
 		currentDirection=north;
+		callGUI();
 	}
 	public void turnSouth(){
 		currentDirection=south;
+		callGUI();
 	}
 	public void turnEast(){
 		currentDirection=east;
+		callGUI();
 	}
 	public void turnWest(){
 		currentDirection=west;
+		callGUI();
 	}
 	
 	/**
@@ -202,4 +211,18 @@ public abstract class LifeForm implements TimeObserver {
 	public void moved(){
 		currentMoves++;
 	}
+	
+	public void callGUI(){
+		try {
+			GUI.globalGUI.addLifeFormEvent(this, myRow, myCol);
+		} catch (RecovRateIsNegative e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+	
 }
