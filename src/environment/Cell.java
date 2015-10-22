@@ -9,6 +9,10 @@ import weapon.Weapon;
 public class Cell implements Cloneable{
 	private LifeForm entity = null;
 	private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+	
+	public Cell (){
+	}
+	
 	/**
 	 * Returns a cloned version of the weapons array, so that we are not
 	 * returning the pointer to the array itself!
@@ -17,7 +21,7 @@ public class Cell implements Cloneable{
 	 */
 	public ArrayList<Weapon> getWeapons() {
 		if (weapons.size() <= 0) {
-			return null;
+			return new ArrayList<Weapon>();
 		}
 		// clone it to make sure that it returns a clone of the array,
 		// not the pointer to the array itself!
@@ -75,8 +79,8 @@ public class Cell implements Cloneable{
 	 * Override the clone() method so that I can pass a clone of the cell, rather than the cell itself.
 	 */
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	protected Cell clone() throws CloneNotSupportedException {
+		return this;
 	}
 	/**
 	 * Tries to add the lifeform to the Cell. Will not add if a LifeForm is

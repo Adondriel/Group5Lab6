@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * Tests for the human, tests initialization and armor setting/getting along with armor value validation.
  */
 package lifeform;
@@ -100,4 +100,9 @@ public class TestHuman {
 		assertEquals(0, h.getArmorPoints());
 	}
 
+	@Test
+	public void testMaxSpeed(){
+		Human h=new Human("H", 30, 30);
+		assertEquals(3, h.getMaxSpeed());
+	}
 }

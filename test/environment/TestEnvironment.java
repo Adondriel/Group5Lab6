@@ -1,7 +1,8 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * Used to test the Environment Class.
  */
+
 package environment;
 import static org.junit.Assert.*;
 
@@ -12,9 +13,12 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import recovery.RecoveryFractional;
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
 import environment.Environment;
 import gameplay.SimpleTimer;
+import lifeform.Alien;
 import lifeform.Human;
 import lifeform.LifeForm;
 import lifeform.MockLifeForm;
@@ -72,9 +76,10 @@ public class TestEnvironment {
 	 * 		along the same column,
 	 * 		and NOT along the same row OR column.
 	 * @throws EnvironmentException
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testGetdistanceBetweenLifeForms() throws EnvironmentException{
+	public void testGetdistanceBetweenLifeForms() throws EnvironmentException, RecovRateIsNegative{
 		LifeForm l1 = new MockLifeForm("Bob", 30);
 		LifeForm l2 = new MockLifeForm("Steve", 30);
 		LifeForm l3 = new MockLifeForm("Harold", 30);
@@ -115,8 +120,9 @@ public class TestEnvironment {
 	 */
 	@Test
 	public void testAddMultipleWeapons() throws CloneNotSupportedException{
-		Weapon w1 = new Pistol();
-		Weapon w2 = new ChainGun();
+		//Had to add final to these for some reason
+		final Weapon w1 = new Pistol();
+		final Weapon w2 = new ChainGun();
 		Weapon w3 = new PlasmaCannon();
 		assertTrue(e.addWeapon(0, 1, w1));
 		assertTrue(e.addWeapon(0, 1, w2));
@@ -130,12 +136,15 @@ public class TestEnvironment {
 	 * Test that e.getCellAt() does not allow you to modify the cells.
 	 * Had to add a clone method to my Cell to allow for this to work :D
 	 * @throws CloneNotSupportedException 
+	 * @throws RecovRateIsNegative 
 	 */
-	public void testEnvironmentGetCellAt() throws CloneNotSupportedException{
+	public void testEnvironmentGetCellAt() throws CloneNotSupportedException, RecovRateIsNegative{
 		Cell badCell = new Cell();
 		LifeForm lf = new Human("steve", 30, 20);
-		Weapon w = new Pistol();
-		Weapon w2 = new ChainGun();
+		
+		//Had to add final to these for some reason
+		final Weapon w = new Pistol();
+		final Weapon w2 = new ChainGun();
 		e.addLifeForm(0, 0, lf);
 		e.addWeapon(0, 0, w);
 		e.addWeapon(0, 0, w2);
@@ -163,7 +172,7 @@ public class TestEnvironment {
 	 * EXTRA TEST
 	 * Tests to make sure we do not return null, if the cell was not created first.
 	 */
-	@Test
+	/*@Test
 	public void test2RemoveWeaponIfCellDoesNotExist(){
 		Weapon w1 = new Pistol();
 		Weapon w2 = new ChainGun();
@@ -171,7 +180,7 @@ public class TestEnvironment {
 		assertFalse(e.removeWeapon(2, 1, w1));
 		assertFalse(e.removeWeapon(2,1, w2));
 		assertFalse(e.removeWeapon(2,1, w1));
-	}	
+	}	*/
 	//
 	//OLD TESTS
 	//Had to modify them, to use new locations because of the singleton but that is all.
@@ -179,9 +188,10 @@ public class TestEnvironment {
 	//
 	/**
 	 * Tests the addLifeForm function of the Environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAddLifeForm() {
+	public void testAddLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);		
 		assertTrue(e.addLifeForm(0, 1, bob));
@@ -192,9 +202,10 @@ public class TestEnvironment {
 	}
 	/**
 	 * Tests the removeLifeForm function of the environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testRemoveLifeForm() {
+	public void testRemoveLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);
 		e.addLifeForm(2, 0, bob);
@@ -204,9 +215,10 @@ public class TestEnvironment {
 	}
 	/**
 	 * Tests the getLifeForm function of the environment class.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testGetLifeForm() {
+	public void testGetLifeForm() throws RecovRateIsNegative {
 		LifeForm bob = new MockLifeForm("Bob", 40);
 		LifeForm steve = new MockLifeForm("Steve", 40);
 		e.addLifeForm(3, 0, bob);
@@ -216,16 +228,28 @@ public class TestEnvironment {
 	}
 	
 	/**
+	 * Test human movement mechanics
 	 * @throws CloneNotSupportedException
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testMoveHuman() throws CloneNotSupportedException{
-		LifeForm h1=new Human("h1", 30, 30);
+	public void testMoveHuman() throws CloneNotSupportedException, RecovRateIsNegative{
+		//The humans
+		Human h1=new Human("h1", 30, 30);
+		Human h2=new Human("h2", 30, 30);
+		Human h3=new Human("h3", 30, 30);
+		Human h4=new Human("h4", 30, 30);
+		Human h5=new Human("h5", 30, 30);
 		SimpleTimer st=new SimpleTimer(100);
 		st.addTimeObserver(h1);
+		st.addTimeObserver(h2);
+		
 		e.ClearBoard();
+		
 		e.addLifeForm(2, 2, h1);
 		
+		//Make sure the human can move north
+		//Also serves as initial test to make sure that movement works
 		e.step(2, 2);
 		assertEquals(h1, e.getCellAt(1, 2).getLifeForm());
 		
@@ -255,39 +279,136 @@ public class TestEnvironment {
 		assertTrue(e.step(2, 3));
 		assertEquals(h1, e.getCellAt(2, 2).getLifeForm());
 		
-		h1.turnRight();
-		LifeForm h2=new Human("h2", 30, 30);
+		h1.turnNorth();
+		
 		e.addLifeForm(1, 2, h2);
 		
 		st.timeChanged();
+		
 		//Make sure a human can move more than 1 space and that its current moves are updated accordingly
 		//EXTRA TEST
 		assertTrue(e.stepNSpaces(2, 2, 2));
+		
 		//EXTRA TEST
 		assertEquals(2, h1.getCurrentMoves());
 		assertEquals(h1, e.getCellAt(0, 2).getLifeForm());
-		//Make sure a humna can't go off the north side of the environment
-		//EXTRA TEST
+		
+		//Make sure a human can't go off the north side of the environment
 		assertFalse(e.step(0, 2));
-		h1.updateTime(3);
+		st.timeChanged();
 		
 		//Make sure a human can't go off the west side of the environment
 		//EXTRA TEST
 		h2.turnLeft();
 		assertFalse(e.stepNSpaces(1, 2, 3));
 		
+		st.timeChanged();
 		
+		e.ClearBoard();
+		e.addLifeForm(4, 0, h1);
+		e.addLifeForm(0, 4, h2);
+		h1.turnSouth();
+		h2.turnEast();
+		//Make sure a human can't go off the south side of the environment
+		assertFalse(e.stepNSpaces(4, 0, 3));
 		
+		//Make sure a human can't go off the east side fothe environment
+		assertFalse(e.stepNSpaces(0, 4, 3));
 		
+		e.ClearBoard();
+		e.addLifeForm(2, 2, h1);
+		e.addLifeForm(1, 2, h2);
+		e.addLifeForm(3, 2, h3);
+		e.addLifeForm(2, 3, h4);
+		e.addLifeForm(2, 1, h5);
 		
+		//Make sure a human can't step north into an occupied cell
+		assertFalse(e.step(2, 2));
 		
+		//Make sure a human can't step east into an occupied cell
+		//EXTRA TEST
+		h1.turnEast();
+		assertFalse(e.step(2, 2));
 		
+		//Make sure a human can't step south into an occupied cell
+		h1.turnSouth();
+		assertFalse(e.step(2, 2));
 		
+		st.timeChanged();
 		
+		h1.turnWest();
+		assertFalse(e.step(2, 2));
+	}
+	
+	/**
+	 * Test alien movement mechanics
+	 * @throws RecovRateIsNegative
+	 */
+	@Test
+	public void testMoveAlien() throws RecovRateIsNegative{
+		Alien a1 = new Alien("a1", 30, 1, new RecoveryFractional(1.5));
+		Alien a2 = new Alien("a2", 30, 1, new RecoveryFractional(1.5));
 		
+		SimpleTimer st=new SimpleTimer(100);
+		st.addTimeObserver(a1);
+		st.addTimeObserver(a2);
 		
+		e.ClearBoard();
 		
+		e.addLifeForm(2, 1, a1);
 		
+		//Make sure aliens can move east
+		a1.turnEast();
+		assertTrue(e.step(2, 1));
+		assertEquals(a1, e.getLifeForm(2, 2));
 		
+		//Make sure aliens can move west
+		a1.turnWest();
+		assertTrue(e.step(2, 2));
+		assertEquals(a1, e.getLifeForm(2, 1));
+		
+		//Make sure an alien can't go over its maximum moves
+		//EXTRA TEST
+		assertFalse(e.step(2, 1));
+		
+		st.timeChanged();
+		e.addLifeForm(2, 2, a2);
+		
+		a1.turnEast();
+		a2.turnWest();
+		
+		//Make sure aliens can't step east into an occupied cell
+		assertFalse(e.step(2, 1));
+		
+		//Make sure aliens can't step west into an occupied cell
+		assertFalse(e.step(2, 2));
+		
+		e.ClearBoard();
+		st.timeChanged();
+		
+		e.addLifeForm(0, 0, a1);
+		e.addLifeForm(4, 4, a2);
+		
+		a1.turnWest();
+		a2.turnEast();
+		//Make sure aliens can't go off the east side of the world
+		//And make sure stepNSpaces is usable by aliens
+		assertFalse(e.stepNSpaces(4, 4, 2));
+		
+		//Make sure aliens can't go off the west side of the world
+		//And make sure stepNSpaces is usable by aliens
+		assertFalse(e.stepNSpaces(0, 0, 2));
+	}
+	
+	/**
+	 * Used to help remember where each lifeform is stored.
+	 */
+	public void listLifeForms(){
+		for(int i=0; i<5; i++){
+			for(int j=0; j<5; j++){
+				if(e.getLifeForm(i, j)!=null)
+					System.out.println(i+", "+j+": "+e.getLifeForm(i, j).getName()+"->"+e.getLifeForm(i, j).getDirection());
+			}
+		}
 	}
 }

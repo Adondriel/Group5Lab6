@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * Keeps Track of the information associated with a simple life form.
  * Also provides the functionality related to the life form.
  */
@@ -8,6 +8,8 @@ package lifeform;
 import gameplay.TimeObserver;
 import weapon.*;
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
+import GUI.GUI;
 import environment.Environment;
 
 public abstract class LifeForm implements TimeObserver {
@@ -126,6 +128,9 @@ public abstract class LifeForm implements TimeObserver {
 		this.myCol = myCol;
 	}
 
+	/**
+	 * @return maximum speed
+	 */
 	public int getMaxSpeed(){
 		return maxSpeed;
 	}
@@ -141,6 +146,7 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=west;
 		else
 			currentDirection=north;
+		callGUI();
 	}
 	
 	/**
@@ -155,6 +161,7 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=east;
 		else
 			currentDirection=north;
+		callGUI();
 	}
 	
 	/**
@@ -169,19 +176,36 @@ public abstract class LifeForm implements TimeObserver {
 			currentDirection=west;
 		else
 			currentDirection=east;
+		callGUI();
 	}
 	
+	/**
+	 * Turn the lifeform north
+	 */
 	public void turnNorth(){
 		currentDirection=north;
+		callGUI();
 	}
+	/**
+	 * Turn the lifeform south
+	 */
 	public void turnSouth(){
 		currentDirection=south;
+		callGUI();
 	}
+	/**
+	 * Turn the lifeform east
+	 */
 	public void turnEast(){
 		currentDirection=east;
+		callGUI();
 	}
+	/**
+	 * Turn the lifeform west
+	 */
 	public void turnWest(){
 		currentDirection=west;
+		callGUI();
 	}
 	
 	/**
@@ -191,15 +215,38 @@ public abstract class LifeForm implements TimeObserver {
 		return currentDirection;
 	}
 	
+	/**
+	 * @return the current number of moves used
+	 */
 	public int getCurrentMoves(){
 		return currentMoves;
 	}
 	
+	/**
+	 * @return the maximum moves
+	 */
 	public int getMaxMoves(){
 		return maxSpeed;
 	}
 	
+	/**
+	 * Used to iterate current moves
+	 */
 	public void moved(){
 		currentMoves++;
 	}
+	
+	public void callGUI(){
+		try {
+			GUI.globalGUI.addLifeFormEvent(this, myRow, myCol);
+		} catch (RecovRateIsNegative e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+	
 }

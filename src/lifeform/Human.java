@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine
+ * @author Adam Pine, Benjamin Uleau
  * The Human class, holds information and functions for the human.
  */
 package lifeform;

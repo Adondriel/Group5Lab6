@@ -1,5 +1,5 @@
 /**
- * @author Adam Pine-Lab5, Alex Fennen-lab4
+ * @author Adam Pine-Lab5, Alex Fennen-lab4, Benjamin Uleau
  * Tests the functionality of the LifeForm class. 
  */
 package lifeform;
@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
 import environment.Environment;
 import gameplay.SimpleTimer;
 import lifeform.LifeForm;
@@ -26,9 +27,10 @@ public class TestLifeForm {
 	/**
 	 * Test that the dead are not able to attack.
 	 * @throws EnvironmentException 
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testDeadCannotAttack() throws EnvironmentException {
+	public void testDeadCannotAttack() throws EnvironmentException, RecovRateIsNegative {
 		LifeForm e = new MockLifeForm("bob", 0);
 		LifeForm e2 = new MockLifeForm("Steve", 30);
 		//their range does not matter 100%, cause they are dead. Prevents a null pointer
@@ -42,9 +44,10 @@ public class TestLifeForm {
 	 * Tests that a lifeform without ammo and outside of the melee damage range
 	 * does not deal damage
 	 * @throws EnvironmentException 
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testNoAmmoAndPastRange() throws EnvironmentException {
+	public void testNoAmmoAndPastRange() throws EnvironmentException, RecovRateIsNegative {
 		LifeForm e = new MockLifeForm("Bob", 40);
 		LifeForm e2 = new MockLifeForm("Fred", 40);
 		//by adding them at these points the range should still be 15
@@ -63,9 +66,10 @@ public class TestLifeForm {
 	 * Tests that a lifeform can attack correctly with different weapons from
 	 * different ranges
 	 * @throws EnvironmentException 
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAttackingWithWeapon() throws EnvironmentException {
+	public void testAttackingWithWeapon() throws EnvironmentException, RecovRateIsNegative {
 		LifeForm e = new MockLifeForm("Bob", 40);
 		LifeForm e2 = new MockLifeForm("Fred", 40);
 		GenericWeapon p = new Pistol();
@@ -101,9 +105,10 @@ public class TestLifeForm {
 	 * Tests that a lifeform whose weapon is out of ammo attacks using its base
 	 * attack
 	 * @throws EnvironmentException 
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAttackingWithoutAmmo() throws EnvironmentException {
+	public void testAttackingWithoutAmmo() throws EnvironmentException, RecovRateIsNegative {
 		LifeForm entity = new MockLifeForm("Bob", 40);
 		LifeForm entity2 = new MockLifeForm("Fred", 40);
 		env.addLifeForm(0, 0, entity);
