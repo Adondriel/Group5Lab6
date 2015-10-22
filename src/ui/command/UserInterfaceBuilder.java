@@ -9,7 +9,7 @@ import lifeform.LifeForm;
 
 public class UserInterfaceBuilder 
 {
-	private String Commands[] = new String[9];
+	private Command Commands[] = new Command[9];
 	
 	public void CommandArray()
 	{
