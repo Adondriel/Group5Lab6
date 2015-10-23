@@ -70,8 +70,8 @@ public class TestCell {
 	@Test
 	public void testWeaponsArray(){
 		Cell c = new Cell();
-		Weapon w1 = new Pistol();
-		Weapon w2 = new ChainGun();
+		final Weapon w1 = new Pistol();
+		final Weapon w2 = new ChainGun();
 		//add the weapons
 		assertTrue(c.addWeapon(w1));
 		assertTrue(c.addWeapon(w2));
