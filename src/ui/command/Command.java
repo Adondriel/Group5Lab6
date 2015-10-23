@@ -2,6 +2,8 @@ package ui.command;
 
 import java.awt.event.ActionEvent;
 
+import lifeform.LifeForm;
+
 /**
  * 
  * @author Bradley Solorzano
@@ -13,6 +15,6 @@ public interface Command
 	 * when ever the command is called will do
 	 * call the action of the corresponding button
 	 */
-	public void execute();
+	public void execute(LifeForm lf);
 
 }

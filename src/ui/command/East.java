@@ -13,14 +13,10 @@ public class East implements Command
 
 private LifeForm entity;
 	
-	public void entityCommand(LifeForm L)
-	{
-		entity = L;
-	}
-
 	@Override
-	public void execute()
+	public void execute(LifeForm lf) 
 	{
-		entity.turnEast();
+		entity = lf;
+		entity.turnEast();	
 	}
 }

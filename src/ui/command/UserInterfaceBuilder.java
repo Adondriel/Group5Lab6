@@ -58,7 +58,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(0);
+			ui.executeCommand(0, lifeform);
 		}
 		});
 		
@@ -73,7 +73,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(1);
+			ui.executeCommand(1, lifeform);
 		}
 		});
 		
@@ -88,7 +88,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(2);
+			ui.executeCommand(2, lifeform);
 		}
 		});
 		
@@ -103,7 +103,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(3);
+			ui.executeCommand(3, lifeform);
 		}
 		});
 		
@@ -118,7 +118,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(4);
+			ui.executeCommand(4, lifeform);
 		}
 		});
 		
@@ -133,7 +133,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(5);
+			ui.executeCommand(5, lifeform);
 		}
 		});
 		
@@ -148,7 +148,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(6);
+			ui.executeCommand(6, lifeform);
 		}
 		});
 		
@@ -163,7 +163,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(7);
+			ui.executeCommand(7, lifeform);
 		}
 		});
 		
@@ -178,7 +178,7 @@ public class UserInterfaceBuilder extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			ui.executeCommand(8);
+			ui.executeCommand(8, lifeform);
 		}
 		});
 		
@@ -200,7 +200,7 @@ public class UserInterfaceBuilder extends JPanel
 		
 	}
 
-	public static void setLifeForm(LifeForm lf) 
+	public void setLifeForm(LifeForm lf) 
 	{
 		lifeform = lf;
 	}	
