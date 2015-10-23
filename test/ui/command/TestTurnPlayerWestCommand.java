@@ -16,7 +16,7 @@ public class TestTurnPlayerWestCommand
 
 	
 	/**
-	 * Test the the LifeForm turns west on command
+	 * Test that the LifeForm turns west on command
 	 */
 	@Test
 	public void testTurnLifeFormWest()
