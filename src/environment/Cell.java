@@ -5,6 +5,7 @@
 package environment;
 import java.util.ArrayList;
 import lifeform.LifeForm;
+import weapon.Attachment;
 import weapon.Weapon;
 public class Cell implements Cloneable{
 	private LifeForm entity = null;
@@ -41,6 +42,17 @@ public class Cell implements Cloneable{
 			return null;
 		} else {
 			return weapons.get(index);
+		}
+	}
+	
+	public Attachment getAttachmentAtIndex(int index){
+		if (index > 1) {
+			return null;
+		}
+		if (weapons.isEmpty()) {
+			return null;
+		} else {
+			return (Attachment) weapons.get(index);
 		}
 	}
 	/**

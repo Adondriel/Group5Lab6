@@ -102,4 +102,17 @@ public abstract class Attachment implements Weapon {
 		return baseWeapon.getShotsFired();
 	}
 
+	public int getAttachmentCount() {
+		return attachmentCount;
+	}
+
+	public Weapon getBaseWeapon() {
+		return baseWeapon;
+	}
+	public Attachment getBaseAttachment() {
+		return (Attachment) baseWeapon;
+	}
+	
+	
+
 }

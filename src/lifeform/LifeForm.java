@@ -103,7 +103,7 @@ public abstract class LifeForm implements TimeObserver {
 		return myTime;
 	}
 
-	public void pickupWeapon(GenericWeapon w) {
+	public void pickupWeapon(Weapon w) {
 		if (weapon == null)
 			weapon = w;
 	}
