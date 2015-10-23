@@ -54,6 +54,8 @@ public class TestUserInterface
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
+		ui.setLifeForm(h);
+		h.turnEast();
 		JOptionPane.showInputDialog("Click the north button.");
 		Thread.sleep(7500);
 		assertEquals(north, h.getDirection());
@@ -68,6 +70,7 @@ public class TestUserInterface
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
+		ui.setLifeForm(h);
 		JOptionPane.showInputDialog("Click the east button.");
 		Thread.sleep(7500);
 		assertEquals(east, h.getDirection());
@@ -82,6 +85,7 @@ public class TestUserInterface
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
+		ui.setLifeForm(h);
 		JOptionPane.showInputDialog("Click the south button.");
 		Thread.sleep(7500);
 		assertEquals(south, h.getDirection());
@@ -96,6 +100,7 @@ public class TestUserInterface
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
+		ui.setLifeForm(h);
 		JOptionPane.showInputDialog("Click the west button.");
 		Thread.sleep(7500);
 		assertEquals(west, h.getDirection());
@@ -150,19 +155,19 @@ public class TestUserInterface
 //		LifeForm entity2 = new MockLifeForm("Fred", 30);
 //	}
 //	
-//	/**
-//	 * Checks to see that clicking the reload button causes LifeForm to reload a weapon.
-//	 */
-//	@Test
-//	public void testReload()
-//	{
-//		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-//		LifeForm entity = new MockLifeForm("Bob", 40);
-//		ChainGun cg = new ChainGun();
-//		//Click the acquire button to pick up a weapon.
-//		assertEquals(cg, entity.getWeapon());
-//		cg.setCurrentAmmo(10);
-//		//Click the reload button to reload the weapon.
-//		assertEquals(40, cg.getCurrentAmmo());
-//	}	
+	/**
+	 * Checks to see that clicking the reload button causes LifeForm to reload a weapon.
+	 */
+	@Test
+	public void testReload()
+	{
+		UserInterfaceBuilder ui = new UserInterfaceBuilder();
+		LifeForm entity = new MockLifeForm("Bob", 40);
+		ChainGun cg = new ChainGun();
+		//Click the acquire button to pick up a weapon.
+		assertEquals(cg, entity.getWeapon());
+		cg.setCurrentAmmo(10);
+		//Click the reload button to reload the weapon.
+		assertEquals(40, cg.getCurrentAmmo());
+	}	
 }

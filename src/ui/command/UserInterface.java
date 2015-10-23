@@ -6,10 +6,13 @@ package ui.command;
 
 import javax.swing.*;
 
+import lifeform.LifeForm;
+
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame
 {
 	private Command[] Commands = new Command[9];
+	private LifeForm lifeform;
 	
 	/**
 	 * Creates the UserInterface.
@@ -30,21 +33,15 @@ public class UserInterface extends JFrame
 		Commands[i] = command;
 	}
 
-	/**
-	 * Execute the command based on the number from the command array.
-	 * @param i
-	 */
-	public void executeCommand(int i) 
+	public void executeCommand(int i, LifeForm lf) 
 	{
-		executeCommand(Commands[i]);	
+		lifeform = lf;
+		executeCommand(Commands[i], lifeform);
 	}
 
-	/**
-	 * Execute the command.
-	 * @param command
-	 */
-	public void executeCommand(Command command) 
+	private void executeCommand(Command command, LifeForm lf) 
 	{
-		command.execute();	
+		lifeform = lf;
+		command.execute(lifeform);
 	}
 }

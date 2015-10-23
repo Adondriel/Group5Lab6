@@ -1,5 +1,6 @@
 package ui.command;
 
+import environment.Environment;
 import lifeform.LifeForm;
 import weapon.GenericWeapon;
 import weapon.Weapon;
@@ -11,24 +12,17 @@ import weapon.Weapon;
  */
 public class Aquire implements Command
 {
-
-	private LifeForm entity;
-	private GenericWeapon weapon;
-	
+	Environment e = Environment.getWorldInstance();
 	/**
 	 * @param Get the Selected LifeForm to 
 	 * perform the action
 	 */
-	public void entityDropCommand(LifeForm L, Weapon W)
-	{
-		entity = L;
-		weapon = (GenericWeapon) W;
-	}
 	
 	@Override
-	public void execute()
+	public void execute(LifeForm L)
 	{
-		entity.pickupWeapon(weapon);
+		
+		//L.pickupWeapon(); //needs work
 	}
 
 }

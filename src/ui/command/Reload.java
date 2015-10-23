@@ -13,13 +13,10 @@ public class Reload implements Command
 {
 	private Weapon equiped;
 	
-	public void weaponReloadCommand(Weapon W)
-	{
-		equiped = W;
-	}
 	@Override
-	public void execute()
+	public void execute(LifeForm lf)
 	{
+		equiped = lf.getWeapon();
 		equiped.reload();
 	}
 	

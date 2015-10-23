@@ -1,5 +1,6 @@
 package ui.command;
 
+import environment.Environment;
 import lifeform.LifeForm;
 
 /**
@@ -11,14 +12,10 @@ public class North implements Command
 {
 	private LifeForm entity;
 	
-	public void entityTurnNorth(LifeForm L)
-	{
-		entity = L;
-	}
-
 	@Override
-	public void execute()
+	public void execute(LifeForm lf) 
 	{
+		entity = lf;
 		entity.turnNorth();
 	}
 

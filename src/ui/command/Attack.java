@@ -1,6 +1,7 @@
 package ui.command;
 
 import Exceptions.EnvironmentException;
+import environment.Environment;
 import lifeform.LifeForm;
 import environment.Environment;
 /**
@@ -11,7 +12,6 @@ import environment.Environment;
 public class Attack implements Command
 {
 	private LifeForm entity;
-	private LifeForm target;
 	
 	Environment e = Environment.getWorldInstance(5, 5);
 	private char north='n';
@@ -26,9 +26,9 @@ public class Attack implements Command
 		//Attack north
 		if(entity.getDirection()==north){
 			for(int i=row; i>=0; i--){
-				if(e.getLifeForm(i, col)!=null && attacked==0){
+				if(e.getLifeForm(i, col)!=null && attacked==0 && i!=row){
 					LifeForm lf=e.getLifeForm(i, col);
-					entity.attackLF(lf);
+					entity.attackLF(e.getLifeForm(i, col));
 					attacked++;
 				}
 			}
@@ -37,7 +37,7 @@ public class Attack implements Command
 		//Attack south
 		if(entity.getDirection()==south){
 			for(int i=row; i<e.getMaxRow(); i++){
-				if(e.getLifeForm(i, col)!=null && attacked==0){
+				if(e.getLifeForm(i, col)!=null && attacked==0 && i!=row){
 					LifeForm lf=e.getLifeForm(i, col);
 					entity.attackLF(lf);
 					attacked++;
@@ -48,7 +48,7 @@ public class Attack implements Command
 		//Attack east
 		if(entity.getDirection()==east){
 			for(int i=col; i<e.getMaxCol(); i++){
-				if(e.getLifeForm(row, i)!=null && attacked==0){
+				if(e.getLifeForm(row, i)!=null && attacked==0 && i!=col){
 					LifeForm lf=e.getLifeForm(row, i);
 					entity.attackLF(lf);
 					attacked++;
@@ -59,7 +59,7 @@ public class Attack implements Command
 		//Attack west
 		if(entity.getDirection()==west){
 			for(int i=col; i>=0; i--){
-				if(e.getLifeForm(row, i)!=null && attacked==0){
+				if(e.getLifeForm(row, i)!=null && attacked==0 && i!=col){
 					LifeForm lf=e.getLifeForm(row, i);
 					entity.attackLF(lf);
 					attacked++;
@@ -68,16 +68,8 @@ public class Attack implements Command
 		}
 	}
 	@Override
-	public void execute()
+	public void execute(LifeForm lf)
 	{
-		try
-		{
-			entity.attackLF(target);
-		} catch (EnvironmentException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//
 	}
-
 }
