@@ -43,7 +43,7 @@ public class UserInterface extends JFrame
 	 * Execute the command.
 	 * @param command
 	 */
-	private void executeCommand(Command command) 
+	public void executeCommand(Command command) 
 	{
 		command.execute();	
 	}

@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import lifeform.LifeForm;
+
 @SuppressWarnings("serial")
 public class UserInterfaceBuilder extends JPanel
 {
@@ -19,6 +21,7 @@ public class UserInterfaceBuilder extends JPanel
 	
 	protected JButton reload, north, south, east, west, move, attack, drop, acquire;
 	static String message = "Welcome";
+	protected static LifeForm lifeform;
 	
 	/**
 	 * Creates the Frame and Panel that all of the buttons go into.
@@ -195,5 +198,10 @@ public class UserInterfaceBuilder extends JPanel
 		c.gridy = 2;
 		buttonPanel.add(userinput, c);
 		
+	}
+
+	public static void setLifeForm(LifeForm lf) 
+	{
+		lifeform = lf;
 	}	
 }
