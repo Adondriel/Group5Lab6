@@ -1,5 +1,6 @@
 package ui.command;
 
+import environment.Environment;
 import lifeform.LifeForm;
 
 /**
@@ -16,13 +17,9 @@ public class Drop implements Command
 	 * @param Get the Selected LifeForm to 
 	 * perform the action
 	 */
-	public void entityDropCommand(LifeForm L)
-	{
-		entity = L;
-	}
 	
 	@Override
-	public void execute()
+	public void execute(LifeForm L)
 	{
 		entity.dropWeapon();
 	}

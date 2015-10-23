@@ -1,5 +1,6 @@
 package ui.command;
 
+import environment.Environment;
 import lifeform.LifeForm;
 
 /**
@@ -10,21 +11,17 @@ import lifeform.LifeForm;
 public class Move implements Command
 {
 
-private LifeForm entity;
-	
+	private LifeForm entity;
+	Environment e = Environment.getWorldInstance();
 	/**
 	 * @param Get the Selected LifeForm to 
 	 * perform the action
 	 */
-	public void entityMoveCommand(LifeForm L)
-	{
-		entity = L;
-	}
 	
 	@Override
-	public void execute()
+	public void execute(LifeForm L)
 	{
-		entity.moved();
+		//L.moved(); still needs work
 	}
 
 }

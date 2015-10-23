@@ -1,6 +1,7 @@
 package ui.command;
 
 import Exceptions.EnvironmentException;
+import environment.Environment;
 import lifeform.LifeForm;
 
 /**
@@ -12,22 +13,10 @@ public class Attack implements Command
 {
 	private LifeForm entity;
 	private LifeForm target;
-	public void attackCommand(LifeForm L, LifeForm T)
-	{
-		entity = L;
-		target = T;
-	}
 	@Override
-	public void execute()
+	public void execute(LifeForm L)
 	{
-		try
-		{
-			entity.attackLF(target);
-		} catch (EnvironmentException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 }

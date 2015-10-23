@@ -2,6 +2,7 @@ package ui.command;
 
 import java.awt.event.ActionEvent;
 
+import environment.Environment;
 import lifeform.LifeForm;
 
 /**
