@@ -1,5 +1,6 @@
 package ui.command;
 
+import weapon.Weapon;
 import environment.Environment;
 import lifeform.LifeForm;
 
@@ -10,18 +11,23 @@ import lifeform.LifeForm;
  */
 public class Drop implements Command
 {
-
-	private LifeForm entity;
-	
-	/**
-	 * @param Get the Selected LifeForm to 
-	 * perform the action
-	 */
+	Environment e = Environment.getWorldInstance();
+	private Weapon tempWeapon;
 	
 	@Override
 	public void execute(LifeForm L)
 	{
-		entity.dropWeapon();
+		if (L.getWeapon() != null)
+		{
+			tempWeapon = L.getWeapon();
+			L.dropWeapon();
+			try {
+				e.getCellAt(L.getMyRow(), L.getMyCol()).addWeapon(tempWeapon);
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

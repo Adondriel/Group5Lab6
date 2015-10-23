@@ -24,6 +24,7 @@ public class TestUserInterface
 	private char south='s';
 	private char east='e';
 	private char west='w';
+	Environment e = Environment.getWorldInstance(5, 5);
 
 	/**
 	 * Checks to see that the UserInterface is initialized correctly.
@@ -56,7 +57,7 @@ public class TestUserInterface
 		Human h = new Human("Bob", 30, 15);
 		ui.setLifeForm(h);
 		h.turnEast();
-		JOptionPane.showInputDialog("Click the north button.");
+		JOptionPane.showInputDialog("Click ok, then click the north button.");
 		Thread.sleep(7500);
 		assertEquals(north, h.getDirection());
 	}
@@ -71,7 +72,7 @@ public class TestUserInterface
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
 		ui.setLifeForm(h);
-		JOptionPane.showInputDialog("Click the east button.");
+		JOptionPane.showInputDialog("Click ok, then click the east button.");
 		Thread.sleep(7500);
 		assertEquals(east, h.getDirection());
 	}
@@ -86,7 +87,7 @@ public class TestUserInterface
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
 		ui.setLifeForm(h);
-		JOptionPane.showInputDialog("Click the south button.");
+		JOptionPane.showInputDialog("Click ok, then click the south button.");
 		Thread.sleep(7500);
 		assertEquals(south, h.getDirection());
 	}
@@ -101,39 +102,52 @@ public class TestUserInterface
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		Human h = new Human("Bob", 30, 15);
 		ui.setLifeForm(h);
-		JOptionPane.showInputDialog("Click the west button.");
+		JOptionPane.showInputDialog("Click ok, then click the west button.");
 		Thread.sleep(7500);
 		assertEquals(west, h.getDirection());
 	}
 	
-//	/**
-//	 * Checks to see that clicking the acquire button causes LifeForm to pickup a weapon.
-//	 */
-//	@Test
-//	public void testAcquire()
-//	{
-//		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-//		LifeForm entity = new MockLifeForm("Bob", 40);
-//		ChainGun cg = new ChainGun();
-//		//Click the acquire button to pick up a weapon.
-//		assertEquals(cg, entity.getWeapon());
-//	}
-//	
-//	/**
-//	 * Checks to see that clicking the drop button causes LifeForm to drop a weapon.
-//	 */
-//	@Test
-//	public void testDrop()
-//	{
-//		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-//		LifeForm entity = new MockLifeForm("Bob", 40);
-//		ChainGun cg = new ChainGun();
-//		//Click the acquire button to pick up a weapon.
-//		assertEquals(cg, entity.getWeapon());
-//		//Click the drop button to drop a weapon.
-//		assertEquals(null, entity.getWeapon());
-//	}
-//	
+	/**
+	 * Checks to see that clicking the acquire button causes LifeForm to pickup a weapon.
+	 * @throws InterruptedException 
+	 * @throws RecovRateIsNegative 
+	 */
+	@Test
+	public void testAcquire() throws InterruptedException, RecovRateIsNegative
+	{
+		
+		UserInterfaceBuilder ui = new UserInterfaceBuilder();
+		Human h = new Human("Bob", 40, 0);
+		ChainGun cg = new ChainGun();
+		e.addLifeForm(0, 0, h);
+		e.addWeapon(0, 0, cg);
+		ui.setLifeForm(h);
+		JOptionPane.showInputDialog("Click ok, then click the acquire button.");
+		Thread.sleep(7500);
+		assertEquals(cg, h.getWeapon());
+	}
+	
+	/**
+	 * Checks to see that clicking the drop button causes LifeForm to drop a weapon.
+	 * @throws InterruptedException 
+	 * @throws RecovRateIsNegative 
+	 */
+	@Test
+	public void testDrop() throws InterruptedException, RecovRateIsNegative
+	{
+		UserInterfaceBuilder ui = new UserInterfaceBuilder();
+		LifeForm entity = new MockLifeForm("Bob", 40);
+		ChainGun cg = new ChainGun();
+		e.addLifeForm(0, 0, entity);
+		e.addWeapon(0, 0, cg);
+		entity.pickupWeapon(cg);
+		ui.setLifeForm(entity);
+		assertEquals(cg, entity.getWeapon());
+		JOptionPane.showInputDialog("Click ok, then click the drop button.");
+		Thread.sleep(7500);
+		assertEquals(null, entity.getWeapon());
+	}
+	
 //	/**
 //	 * Checks to see that clicking the move button causes LifeForm to move.
 //	 */
@@ -143,31 +157,40 @@ public class TestUserInterface
 //		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 //		LifeForm entity = new MockLifeForm("Bob", 40);
 //	}
-//	
-//	/**
-//	 * Checks to see that clicking the attack button causes LifeForm to attack another LifeForm.
-//	 */
-//	@Test
-//	public void testAttack()
-//	{
-//		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-//		LifeForm entity = new MockLifeForm("Bob", 40);
-//		LifeForm entity2 = new MockLifeForm("Fred", 30);
-//	}
-//	
+	
 	/**
-	 * Checks to see that clicking the reload button causes LifeForm to reload a weapon.
+	 * Checks to see that clicking the attack button causes LifeForm to attack another LifeForm.
+	 * @throws InterruptedException 
 	 */
 	@Test
-	public void testReload()
+	public void testAttack() throws InterruptedException
+	{
+		UserInterfaceBuilder ui = new UserInterfaceBuilder();
+		LifeForm bob = new MockLifeForm("Bob", 40);
+		LifeForm fred = new MockLifeForm("Fred", 30);
+		ChainGun cg = new ChainGun();
+		fred.pickupWeapon(cg);
+		ui.setLifeForm(fred);
+		JOptionPane.showInputDialog("Click ok, Then click the attack button.");
+		Thread.sleep(7500);
+		assertEquals(40, cg.getCurrentAmmo());
+	}
+	
+	/**
+	 * Checks to see that clicking the reload button causes LifeForm to reload a weapon.
+	 * @throws InterruptedException 
+	 */
+	@Test
+	public void testReload() throws InterruptedException
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
 		LifeForm entity = new MockLifeForm("Bob", 40);
 		ChainGun cg = new ChainGun();
-		//Click the acquire button to pick up a weapon.
-		assertEquals(cg, entity.getWeapon());
+		entity.pickupWeapon(cg);
 		cg.setCurrentAmmo(10);
-		//Click the reload button to reload the weapon.
+		ui.setLifeForm(entity);
+		JOptionPane.showInputDialog("Click ok, Then click the reload button.");
+		Thread.sleep(7500);
 		assertEquals(40, cg.getCurrentAmmo());
 	}	
 }

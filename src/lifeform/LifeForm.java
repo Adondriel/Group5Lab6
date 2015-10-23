@@ -5,6 +5,8 @@
  */
 package lifeform;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import gameplay.TimeObserver;
 import weapon.*;
 import Exceptions.EnvironmentException;
@@ -17,7 +19,7 @@ public abstract class LifeForm implements TimeObserver {
 	protected int currentLifePoints;
 	private int attackDmg;
 	protected int myTime;
-	protected Weapon weapon;
+	protected Weapon weapon = null;
 	private int myRow;
 	private int myCol;
 	protected char north='n';
@@ -245,7 +247,9 @@ public abstract class LifeForm implements TimeObserver {
 		}
 	}
 
-	public Weapon getWeapon() {
+	@Nullable
+	public Weapon getWeapon()
+	{
 		return weapon;
 	}
 	

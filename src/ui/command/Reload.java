@@ -1,8 +1,6 @@
 package ui.command;
 
-import environment.Environment;
 import lifeform.LifeForm;
-import weapon.Weapon;
 
 /**
  * 
@@ -11,13 +9,10 @@ import weapon.Weapon;
  */
 public class Reload implements Command
 {
-	private Weapon equiped;
-	
 	@Override
 	public void execute(LifeForm lf)
 	{
-		equiped = lf.getWeapon();
-		equiped.reload();
+		lf.getWeapon().reload();
 	}
 	
 }
