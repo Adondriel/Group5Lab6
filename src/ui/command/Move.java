@@ -1,5 +1,7 @@
 package ui.command;
 
+import Exceptions.EnvironmentException;
+import Exceptions.RecovRateIsNegative;
 import environment.Environment;
 import lifeform.LifeForm;
 
@@ -11,17 +13,21 @@ import lifeform.LifeForm;
 public class Move implements Command
 {
 
-	private LifeForm entity;
 	Environment e = Environment.getWorldInstance();
-	/**
-	 * @param Get the Selected LifeForm to 
-	 * perform the action
-	 */
+
 	
 	@Override
 	public void execute(LifeForm L)
 	{
-		//L.moved(); still needs work
+		
+		try
+		{
+			e.stepNSpaces(L.getMyRow(), L.getMyCol(), L.getMaxSpeed());
+		} catch (RecovRateIsNegative e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
