@@ -200,6 +200,10 @@ public class UserInterfaceBuilder extends JPanel
 		
 	}
 
+	/**
+	 * Sets a LifeForm to use the UserInterface.
+	 * @param lf
+	 */
 	public void setLifeForm(LifeForm lf) 
 	{
 		lifeform = lf;

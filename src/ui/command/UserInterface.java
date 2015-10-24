@@ -33,12 +33,22 @@ public class UserInterface extends JFrame
 		Commands[i] = command;
 	}
 
+	/**
+	 * A midpoint between the button and the command that will be executed.
+	 * @param i
+	 * @param lf
+	 */
 	public void executeCommand(int i, LifeForm lf) 
 	{
 		lifeform = lf;
 		executeCommand(Commands[i], lifeform);
 	}
 
+	/**
+	 * Executes a specific command on a LifeForm.
+	 * @param command the command to be performed.
+	 * @param lf the LifeForm performing the command.
+	 */
 	private void executeCommand(Command command, LifeForm lf) 
 	{
 		lifeform = lf;
