@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import lifeform.LifeForm;
-import lifeform.MockLifeForm;
+import lifeform.Human;
 /**
  * 
  * @author Bradley Solorzano
@@ -13,6 +12,7 @@ import lifeform.MockLifeForm;
  */
 public class TestTurnPlayerWestCommand
 {
+	private char west='w';
 
 	
 	/**
@@ -21,10 +21,10 @@ public class TestTurnPlayerWestCommand
 	@Test
 	public void testTurnLifeFormWest()
 	{
-		LifeForm bob = new MockLifeForm("bob", 23);
-		West west = new West();
-		west.execute(bob);
-		assertEquals('w', bob.getDirection());
+		Human h = new Human("bob", 23, 0);
+		West w = new West();
+		w.execute(h);
+		assertEquals(west, h.getDirection());
 	}
 
 }

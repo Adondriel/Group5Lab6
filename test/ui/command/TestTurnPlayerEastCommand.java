@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import lifeform.LifeForm;
-import lifeform.MockLifeForm;
+import lifeform.Human;
 
 public class TestTurnPlayerEastCommand
 {
+	private char east='e';
 
 	/**
 	 * Test that the LifeForm turns east on command
@@ -16,10 +16,10 @@ public class TestTurnPlayerEastCommand
 	@Test
 	public void testTurnLifeFormEast()
 	{
-		LifeForm bob = new MockLifeForm("bob", 23);
-		East east = new East();
-		east.execute(bob);
-		assertEquals('E', bob.getDirection());
+		Human h = new Human("bob", 23, 0);
+		East e = new East();
+		e.execute(h);
+		assertEquals(east, h.getDirection());
 	}
 
 }

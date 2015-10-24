@@ -70,6 +70,11 @@ public class Attack implements Command
 	@Override
 	public void execute(LifeForm lf)
 	{
-		//
+		try {
+			attackCommand(lf.getMyRow(), lf.getMyCol());
+		} catch (EnvironmentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

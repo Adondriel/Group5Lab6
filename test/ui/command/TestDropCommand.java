@@ -2,30 +2,38 @@ package ui.command;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import javax.swing.JOptionPane;
 
+import lifeform.Human;
 import lifeform.LifeForm;
 import lifeform.MockLifeForm;
-import weapon.GenericWeapon;
+
+import org.junit.Test;
+
+import Exceptions.RecovRateIsNegative;
+import environment.Environment;
+import weapon.ChainGun;
 import weapon.Pistol;
 
 public class TestDropCommand
 {
+	Environment e = Environment.getWorldInstance(5, 5);
 
 	/**
-	 * Test the the LifeForm will reload 
-	 * its weapon
+	 * Checks to see if the LifeForm will drop a weapon.
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAttackCommand()
+	public void testDropCommand() throws RecovRateIsNegative
 	{
-		LifeForm bob = new MockLifeForm("bob", 23);
-		Reload reload = new Reload();
-		GenericWeapon weapon = new Pistol();
-		weapon.setCurrentAmmo(5);
-		reload.weaponReloadCommand(weapon);
-		reload.execute();
-		assertEquals(10, weapon.getCurrentAmmo());
+		Human bob = new Human("bob", 23, 0);
+		Pistol p = new Pistol();
+		Drop d = new Drop();
+		e.addLifeForm(0, 0, bob);
+		e.addWeapon(0, 0, p);
+		bob.pickupWeapon(p);
+		d.execute(bob);
+		assertEquals(null, bob.getWeapon());
 	}
 
 }

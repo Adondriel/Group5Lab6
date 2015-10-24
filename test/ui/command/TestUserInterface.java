@@ -43,6 +43,7 @@ public class TestUserInterface
 		assertEquals(JOptionPane.YES_OPTION, JOptionPane.showConfirmDialog(null, "Is there a South button?"));
 		assertEquals(JOptionPane.YES_OPTION, JOptionPane.showConfirmDialog(null, "Is there a West button?"));
 		assertEquals(JOptionPane.YES_OPTION, JOptionPane.showConfirmDialog(null, "Is there a East button?"));
+		e.ClearBoard();
 	}
 	
 	/**
@@ -60,6 +61,7 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the north button.");
 		Thread.sleep(7500);
 		assertEquals(north, h.getDirection());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -75,6 +77,7 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the east button.");
 		Thread.sleep(7500);
 		assertEquals(east, h.getDirection());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -90,6 +93,7 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the south button.");
 		Thread.sleep(7500);
 		assertEquals(south, h.getDirection());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -105,6 +109,7 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the west button.");
 		Thread.sleep(7500);
 		assertEquals(west, h.getDirection());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -125,6 +130,7 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the acquire button.");
 		Thread.sleep(7500);
 		assertEquals(cg, h.getWeapon());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -146,34 +152,45 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, then click the drop button.");
 		Thread.sleep(7500);
 		assertEquals(null, entity.getWeapon());
+		e.ClearBoard();
 	}
 	
-//	/**
-//	 * Checks to see that clicking the move button causes LifeForm to move.
-//	 */
-//	@Test
-//	public void testMove()
-//	{
-//		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-//		LifeForm entity = new MockLifeForm("Bob", 40);
-//	}
+	/**
+	 * Checks to see that clicking the move button causes LifeForm to move.
+	 * @throws RecovRateIsNegative 
+	 * @throws InterruptedException 
+	 */
+	@Test
+	public void testMove() throws RecovRateIsNegative, InterruptedException
+	{
+		UserInterfaceBuilder ui = new UserInterfaceBuilder();
+		Human h = new Human("Bob", 40, 0);
+		ui.setLifeForm(h);
+		e.addLifeForm(4, 2, h);
+		JOptionPane.showInputDialog("Click ok, then click the move button.");
+		Thread.sleep(7500);
+		assertEquals(JOptionPane.YES_OPTION, JOptionPane.showConfirmDialog(null, "Did the Human move?"));
+		e.ClearBoard();
+	}
 	
 	/**
 	 * Checks to see that clicking the attack button causes LifeForm to attack another LifeForm.
 	 * @throws InterruptedException 
+	 * @throws RecovRateIsNegative 
 	 */
 	@Test
-	public void testAttack() throws InterruptedException
+	public void testAttack() throws InterruptedException, RecovRateIsNegative
 	{
 		UserInterfaceBuilder ui = new UserInterfaceBuilder();
-		LifeForm bob = new MockLifeForm("Bob", 40);
-		LifeForm fred = new MockLifeForm("Fred", 30);
-		ChainGun cg = new ChainGun();
-		fred.pickupWeapon(cg);
+		Human bob = new Human("Bob", 40, 0);
+		Human fred = new Human("Fred", 30, 0);
+		e.addLifeForm(2, 1, fred);
+		e.addLifeForm(1, 1, bob);
 		ui.setLifeForm(fred);
 		JOptionPane.showInputDialog("Click ok, Then click the attack button.");
 		Thread.sleep(7500);
-		assertEquals(40, cg.getCurrentAmmo());
+		assertEquals(35, bob.getCurrentLifePoints());
+		e.ClearBoard();
 	}
 	
 	/**
@@ -192,5 +209,6 @@ public class TestUserInterface
 		JOptionPane.showInputDialog("Click ok, Then click the reload button.");
 		Thread.sleep(7500);
 		assertEquals(40, cg.getCurrentAmmo());
+		e.ClearBoard();
 	}	
 }
