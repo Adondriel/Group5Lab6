@@ -37,7 +37,5 @@ public class TestAttackCommand
 		assertEquals(25, jon.getCurrentLifePoints());
 		
 		e.ClearBoard();
-		
-		
 	}
 }

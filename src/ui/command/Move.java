@@ -19,13 +19,12 @@ public class Move implements Command
 	@Override
 	public void execute(LifeForm L)
 	{
-		
+		int stepSpaces=0;
 		try
 		{
-			e.stepNSpaces(L.getMyRow(), L.getMyCol(), L.getMaxSpeed());
+			e.stepNSpaces(L.getMyRow(), L.getMyCol(), stepSpaces);
 		} catch (RecovRateIsNegative e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
