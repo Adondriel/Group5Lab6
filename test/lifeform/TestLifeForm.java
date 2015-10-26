@@ -304,4 +304,16 @@ public class TestLifeForm {
 		l1.turnAround();
 		assertEquals(east, l1.getDirection());
 	}
+	
+	@Test
+	public void testTurnDirect(){
+		LifeForm l1=new MockLifeForm("L1", 30);
+		assertEquals(north, l1.getDirection());
+		l1.turnSouth();
+		assertEquals(south, l1.getDirection());
+		l1.turnEast();
+		assertEquals(east, l1.getDirection());
+		l1.turnWest();
+		assertEquals(west, l1.getDirection());
+	}
 }
